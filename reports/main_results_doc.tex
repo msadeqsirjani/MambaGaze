@@ -1,0 +1,99 @@
+\documentclass[sigconf,nonacm]{acmart}
+% acmart loads booktabs and graphicx; ACM style = horizontal rules only.
+
+\begin{document}
+
+\title{Main Results}
+\author{}
+
+\begin{table*}[t]
+  \centering
+  \caption{Comparison on CLARE and CL-Drive under LOSO and 10-fold
+  cross-validation. Values are mean\,$\pm$\,std (\%) over folds;
+  F1$_{\text{M}}$ is macro-F1; Params is the trainable parameter count
+  in thousands (K). Avg averages the two datasets within each protocol;
+  rows ordered by mean macro-F1.}
+  \label{tab:main_results}
+  \Description{Parameter count, accuracy, macro-F1, and AUC for ten models
+  on two datasets under two cross-validation protocols, with per-protocol averages.}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{lccccccccccccccccccc}
+    \toprule
+    & & \multicolumn{6}{c}{\textbf{CLARE}} & \multicolumn{6}{c}{\textbf{CL-Drive}}
+    & \multicolumn{6}{c}{\textbf{Avg}} \\
+    \cmidrule(lr){3-8} \cmidrule(lr){9-14} \cmidrule(lr){15-20}
+    & & \multicolumn{3}{c}{LOSO} & \multicolumn{3}{c}{10-fold}
+    & \multicolumn{3}{c}{LOSO} & \multicolumn{3}{c}{10-fold}
+    & \multicolumn{3}{c}{LOSO} & \multicolumn{3}{c}{10-fold} \\
+    \cmidrule(lr){3-5} \cmidrule(lr){6-8} \cmidrule(lr){9-11} \cmidrule(lr){12-14}
+    \cmidrule(lr){15-17} \cmidrule(lr){18-20}
+    Model & Params & Acc & F1$_{\text{M}}$ & AUC & Acc & F1$_{\text{M}}$ & AUC
+          & Acc & F1$_{\text{M}}$ & AUC & Acc & F1$_{\text{M}}$ & AUC
+          & Acc & F1$_{\text{M}}$ & AUC & Acc & F1$_{\text{M}}$ & AUC \\
+    \midrule
+    CNN & 5679.5
+      & 73.0{\scriptsize\,$\pm$16.0} & 47.4{\scriptsize\,$\pm$5.7}  & 53.1{\scriptsize\,$\pm$13.1}
+      & 74.3{\scriptsize\,$\pm$9.2}  & 46.9{\scriptsize\,$\pm$4.2}  & 57.5{\scriptsize\,$\pm$6.5}
+      & 64.3{\scriptsize\,$\pm$12.4} & 54.6{\scriptsize\,$\pm$9.3}  & 60.3{\scriptsize\,$\pm$12.4}
+      & 62.6{\scriptsize\,$\pm$9.3}  & 52.3{\scriptsize\,$\pm$8.1}  & 57.0{\scriptsize\,$\pm$10.2}
+      & 68.6 & 51.0 & 56.7 & 68.4 & 49.6 & 57.2 \\
+    Transformer & 614.0
+      & 74.0{\scriptsize\,$\pm$13.7} & 49.3{\scriptsize\,$\pm$5.0}  & 53.9{\scriptsize\,$\pm$12.9}
+      & 70.5{\scriptsize\,$\pm$9.5}  & 47.7{\scriptsize\,$\pm$5.2}  & 54.7{\scriptsize\,$\pm$3.4}
+      & 61.0{\scriptsize\,$\pm$10.4} & 53.2{\scriptsize\,$\pm$7.5}  & 56.7{\scriptsize\,$\pm$12.7}
+      & 60.1{\scriptsize\,$\pm$6.0}  & 52.7{\scriptsize\,$\pm$7.2}  & 56.1{\scriptsize\,$\pm$8.2}
+      & 67.5 & 51.2 & 55.3 & 65.3 & 50.2 & 55.4 \\
+    ResNet & 1036.9
+      & 72.8{\scriptsize\,$\pm$13.6} & 50.1{\scriptsize\,$\pm$6.0}  & 55.1{\scriptsize\,$\pm$14.3}
+      & 69.9{\scriptsize\,$\pm$7.7}  & 50.9{\scriptsize\,$\pm$6.6}  & 58.2{\scriptsize\,$\pm$8.0}
+      & 61.7{\scriptsize\,$\pm$10.4} & 52.6{\scriptsize\,$\pm$10.4} & 59.1{\scriptsize\,$\pm$13.2}
+      & 58.0{\scriptsize\,$\pm$8.8}  & 50.4{\scriptsize\,$\pm$8.7}  & 51.8{\scriptsize\,$\pm$10.2}
+      & 67.2 & 51.3 & 57.1 & 63.9 & 50.7 & 55.0 \\
+    Uni-S4 & 221.2
+      & 76.7{\scriptsize\,$\pm$12.2} & 56.4{\scriptsize\,$\pm$11.3} & 61.8{\scriptsize\,$\pm$17.8}
+      & 77.0{\scriptsize\,$\pm$7.0}  & 52.5{\scriptsize\,$\pm$6.7}  & 59.6{\scriptsize\,$\pm$6.5}
+      & 70.4{\scriptsize\,$\pm$10.3} & 49.3{\scriptsize\,$\pm$7.9}  & 56.9{\scriptsize\,$\pm$10.6}
+      & 69.9{\scriptsize\,$\pm$7.0}  & 46.0{\scriptsize\,$\pm$5.5}  & 54.8{\scriptsize\,$\pm$7.7}
+      & 73.5 & 52.8 & 59.3 & 73.4 & 49.2 & 57.2 \\
+    Uni-Mamba & 440.5
+      & 77.5{\scriptsize\,$\pm$11.5} & 58.3{\scriptsize\,$\pm$8.9}  & 60.3{\scriptsize\,$\pm$17.0}
+      & 77.8{\scriptsize\,$\pm$7.0}  & 52.5{\scriptsize\,$\pm$10.5} & 59.2{\scriptsize\,$\pm$7.9}
+      & 71.6{\scriptsize\,$\pm$9.6}  & 47.0{\scriptsize\,$\pm$7.4}  & 56.3{\scriptsize\,$\pm$13.0}
+      & 65.7{\scriptsize\,$\pm$8.8}  & 48.7{\scriptsize\,$\pm$4.7}  & 52.9{\scriptsize\,$\pm$7.3}
+      & 74.6 & 52.7 & 58.3 & 71.7 & 50.6 & 56.0 \\
+    VGG & 418.6
+      & 72.3{\scriptsize\,$\pm$12.9} & 49.8{\scriptsize\,$\pm$7.0}  & 53.6{\scriptsize\,$\pm$14.1}
+      & 66.4{\scriptsize\,$\pm$9.2}  & 52.5{\scriptsize\,$\pm$3.2}  & 57.1{\scriptsize\,$\pm$5.0}
+      & 62.0{\scriptsize\,$\pm$12.1} & 53.7{\scriptsize\,$\pm$10.0} & 59.2{\scriptsize\,$\pm$13.2}
+      & 58.1{\scriptsize\,$\pm$10.9} & 51.2{\scriptsize\,$\pm$7.5}  & 54.2{\scriptsize\,$\pm$9.1}
+      & 67.1 & 51.7 & 56.4 & 62.2 & 51.9 & 55.7 \\
+    Uni-S4D & 220.7
+      & 77.3{\scriptsize\,$\pm$12.2} & 56.4{\scriptsize\,$\pm$11.4} & 61.3{\scriptsize\,$\pm$18.0}
+      & 77.6{\scriptsize\,$\pm$6.6}  & 54.1{\scriptsize\,$\pm$8.2}  & 59.7{\scriptsize\,$\pm$5.3}
+      & 72.5{\scriptsize\,$\pm$9.1}  & 49.9{\scriptsize\,$\pm$6.8}  & 56.1{\scriptsize\,$\pm$13.3}
+      & 67.1{\scriptsize\,$\pm$7.6}  & 48.4{\scriptsize\,$\pm$5.8}  & 56.4{\scriptsize\,$\pm$8.0}
+      & 74.9 & 53.1 & 58.7 & 72.4 & 51.3 & 58.0 \\
+    Bi-S4D & 441.3
+      & 76.7{\scriptsize\,$\pm$12.3} & 56.4{\scriptsize\,$\pm$11.3} & 61.3{\scriptsize\,$\pm$17.8}
+      & 77.3{\scriptsize\,$\pm$6.7}  & 53.9{\scriptsize\,$\pm$8.0}  & 61.1{\scriptsize\,$\pm$6.9}
+      & 71.2{\scriptsize\,$\pm$10.5} & 49.6{\scriptsize\,$\pm$7.5}  & 56.9{\scriptsize\,$\pm$11.4}
+      & 66.4{\scriptsize\,$\pm$9.0}  & 49.0{\scriptsize\,$\pm$5.5}  & 53.7{\scriptsize\,$\pm$5.8}
+      & 73.9 & 53.0 & 59.1 & 71.9 & 51.4 & 57.4 \\
+    Bi-S4 & 442.4
+      & 77.2{\scriptsize\,$\pm$12.0} & 56.7{\scriptsize\,$\pm$11.4} & 61.9{\scriptsize\,$\pm$18.2}
+      & 77.7{\scriptsize\,$\pm$6.7}  & 53.0{\scriptsize\,$\pm$9.2}  & 60.2{\scriptsize\,$\pm$7.8}
+      & 71.7{\scriptsize\,$\pm$9.7}  & 51.9{\scriptsize\,$\pm$8.8}  & 58.0{\scriptsize\,$\pm$12.9}
+      & 66.1{\scriptsize\,$\pm$9.0}  & 49.5{\scriptsize\,$\pm$5.2}  & 54.1{\scriptsize\,$\pm$5.5}
+      & 74.4 & 54.3 & 60.0 & 71.9 & 51.2 & 57.2 \\
+    Bi-Mamba & 881.0
+      & 77.1{\scriptsize\,$\pm$12.0} & 59.2{\scriptsize\,$\pm$9.4}  & 62.0{\scriptsize\,$\pm$18.2}
+      & 77.2{\scriptsize\,$\pm$6.4}  & 53.1{\scriptsize\,$\pm$7.6}  & 60.0{\scriptsize\,$\pm$6.6}
+      & 69.4{\scriptsize\,$\pm$11.2} & 51.5{\scriptsize\,$\pm$8.6}  & 57.9{\scriptsize\,$\pm$11.6}
+      & 65.4{\scriptsize\,$\pm$6.3}  & 50.9{\scriptsize\,$\pm$5.8}  & 55.8{\scriptsize\,$\pm$6.6}
+      & 73.2 & 55.3 & 59.9 & 71.3 & 52.0 & 57.9 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table*}
+
+\end{document}
