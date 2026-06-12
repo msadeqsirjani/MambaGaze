@@ -13,9 +13,11 @@ Inputs: NPZ files produced by the preprocess package
   D_grud    : (N, 500, F)   log-scaled time-deltas
   y         : (N,)          binary labels
 
---inputs xmd feeds the concatenation [X | M | D] (N, 500, 3F); --inputs x
-feeds X_imputed only. If omitted, the model's registry default is used
-(xmd for the SSM family, x for CNN/Transformer).
+--inputs selects which streams are fed to the model, concatenated in order:
+any combination of x (X_imputed), m (M_grud), d (D_grud). E.g. xmd feeds
+[X | M | D] (N, 500, 3F); x, m, or d feed a single stream (N, 500, F).
+If omitted, the model's registry default is used (xmd for the SSM family,
+x for CNN/Transformer).
 
 Usage:
   python train.py \
@@ -92,9 +94,14 @@ torch.backends.cudnn.allow_tf32       = True
 # Dataset
 # ---------------------------------------------------------------------------
 
+INPUT_STREAMS = {"x": "X_imputed", "m": "M_grud", "d": "D_grud"}
+
+
 class WindowDataset(Dataset):
     """
     Loads NPZ windows.
+    inputs selects streams by character, concatenated in order
+    ('x' -> X_imputed, 'm' -> M_grud, 'd' -> D_grud):
     inputs='x'   -> X_imputed only              (N, T, F)
     inputs='xmd' -> concat [X | M | D]          (N, T, 3F)
     channels_first=True -> transpose to (N, C, T) for CNN/Transformer models
@@ -102,15 +109,12 @@ class WindowDataset(Dataset):
 
     def __init__(self, npz_paths: List[str], inputs: str = "x",
                  channels_first: bool = False):
-        assert inputs in ("x", "xmd")
+        assert inputs and all(c in INPUT_STREAMS for c in inputs)
         self.samples: List[Tuple[np.ndarray, int]] = []
         for p in npz_paths:
             z = np.load(p, allow_pickle=True)
-            X = z["X_imputed"].astype(np.float32)
-            if inputs == "xmd":
-                M = z["M_grud"].astype(np.float32)
-                D = z["D_grud"].astype(np.float32)
-                X = np.concatenate([X, M, D], axis=-1)
+            parts = [z[INPUT_STREAMS[c]].astype(np.float32) for c in inputs]
+            X = parts[0] if len(parts) == 1 else np.concatenate(parts, axis=-1)
             if channels_first:
                 X = X.transpose(0, 2, 1)   # (N, C, T)
             y = z["y"].astype(np.int64)
@@ -526,7 +530,9 @@ def main():
     ap.add_argument("--data",    required=True,
                     help="Path to loso_splits.json / kfold_splits.json")
     ap.add_argument("--out",     default=None)
-    ap.add_argument("--inputs",  choices=["x", "xmd"], default=None,
+    ap.add_argument("--inputs",
+                    choices=["x", "m", "d", "xm", "xd", "md", "xmd"],
+                    default=None,
                     help="Input encoding; defaults to the model's registry setting")
     ap.add_argument("--held_subject", default=None,
                     help="Run a single fold (for SLURM array jobs)")

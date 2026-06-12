@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Shared launcher sourced by scripts/train/train_<model>.sh wrappers.
-# Wrapper sets MODEL and MODEL_ARGS (or MODEL_ARGS_CLARE / MODEL_ARGS_CLDRIVE).
+# Wrapper sets MODEL and MODEL_ARGS (or MODEL_ARGS_CLARE / MODEL_ARGS_CLDRIVE),
+# and optionally OUT_SUFFIX to keep ablation outputs apart from the main runs.
 
 set -euo pipefail
 
@@ -25,7 +26,7 @@ run_one() {
     esac
 
     [[ -n "$DATA_DIR" ]] || DATA_DIR=datasets/$DATASET/processed
-    [[ -n "$OUT_DIR"  ]] || OUT_DIR=outputs/${MODEL}_${DATASET}_${SPLIT}
+    [[ -n "$OUT_DIR"  ]] || OUT_DIR=outputs/${MODEL}${OUT_SUFFIX:-}_${DATASET}_${SPLIT}
     local SPLITS="$DATA_DIR/${SPLIT}_splits.json"
 
     if [[ ! -f "$SPLITS" ]]; then
