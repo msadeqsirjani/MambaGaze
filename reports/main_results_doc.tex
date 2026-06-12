@@ -16,6 +16,8 @@
   \label{tab:main_results}
   \Description{Parameter count, accuracy, macro-F1, and AUC for ten models
   on two datasets under two cross-validation protocols, with per-protocol averages.}
+  \renewcommand{\arraystretch}{1.3}%
+  \setlength{\tabcolsep}{3pt}%
   \resizebox{\textwidth}{!}{%
   \begin{tabular}{lccccccccccccccccccc}
     \toprule
@@ -114,6 +116,7 @@
   \Description{Model size, FLOPs, latency, throughput, memory, power,
   and energy efficiency for ten models on three NVIDIA Jetson devices:
   Orin Nano, Orin NX, and AGX Orin.}
+  \setlength{\tabcolsep}{3pt}%
   \resizebox{\textwidth}{!}{%
   \begin{tabular}{lcccccccccccc}
     \toprule
@@ -125,7 +128,7 @@
     Model & Size (MB) & GFLOPs & Lat. & P99 & FPS & Perf (GFLOP/s)
           & RSS & GPU & Power (W) & E/Inf (mJ) & Inf/J & GFLOPS/W \\
     \midrule
-    \multicolumn{13}{l}{\textit{Jetson Orin Nano}} \\
+    \multicolumn{13}{l}{\textbf{Jetson Orin Nano}} \\
     CNN & 21.67 & 0.154
       & 4.44{\scriptsize\,$\pm$0.08} & 7.92{\scriptsize\,$\pm$0.65} & 225.3{\scriptsize\,$\pm$4.1} & 34.7{\scriptsize\,$\pm$0.6}
       & 797{\scriptsize\,$\pm$12} & 38.1{\scriptsize\,$\pm$0.0} & 5.65{\scriptsize\,$\pm$0.06}
@@ -167,7 +170,7 @@
       & 1437{\scriptsize\,$\pm$5} & 33.3{\scriptsize\,$\pm$64.3} & 4.97{\scriptsize\,$\pm$0.32}
       & 150.4{\scriptsize\,$\pm$7.8} & 6.7{\scriptsize\,$\pm$0.3} & 6.16{\scriptsize\,$\pm$0.27} \\
     \midrule
-    \multicolumn{13}{l}{\textit{Jetson Orin NX}} \\
+    \multicolumn{13}{l}{\textbf{Jetson Orin NX}} \\
     CNN & 21.67 & 0.154
       & 5.99{\scriptsize\,$\pm$0.19} & 7.80{\scriptsize\,$\pm$1.28} & 167.2{\scriptsize\,$\pm$5.3} & 25.8{\scriptsize\,$\pm$0.8}
       & 761{\scriptsize\,$\pm$13} & 38.1{\scriptsize\,$\pm$0.0} & 6.98{\scriptsize\,$\pm$0.07}
@@ -209,7 +212,7 @@
       & 1211{\scriptsize\,$\pm$76} & 33.3{\scriptsize\,$\pm$64.3} & 6.56{\scriptsize\,$\pm$0.16}
       & 239.6{\scriptsize\,$\pm$7.3} & 4.2{\scriptsize\,$\pm$0.1} & 3.87{\scriptsize\,$\pm$0.12} \\
     \midrule
-    \multicolumn{13}{l}{\textit{Jetson AGX Orin}} \\
+    \multicolumn{13}{l}{\textbf{Jetson AGX Orin}} \\
     CNN & 21.67 & 0.154
       & 4.20{\scriptsize\,$\pm$0.14} & 6.57{\scriptsize\,$\pm$0.81} & 238.5{\scriptsize\,$\pm$7.6} & 36.8{\scriptsize\,$\pm$1.2}
       & 820{\scriptsize\,$\pm$12} & 38.1{\scriptsize\,$\pm$0.0} & 4.98{\scriptsize\,$\pm$0.05}
