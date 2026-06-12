@@ -96,4 +96,163 @@
   }
 \end{table*}
 
+\begin{table*}[t]
+  \centering
+  \caption{On-device inference benchmark on NVIDIA Jetson platforms
+  (batch size 1, sequence length 500, 30 input channels, 100 timed
+  iterations after 20 warm-up iterations). Values are mean\,$\pm$\,std
+  over all trained fold checkpoints (60 per model per device).
+  Size is the model size in MB and GFLOPs the analytic compute per
+  inference (both checkpoint-independent); Lat.\ and P99 are mean and
+  99th-percentile per-inference latency; Perf is achieved GFLOP/s;
+  RSS is host peak resident memory and GPU the peak GPU memory
+  allocated (the large std for Mamba models reflects a one-time
+  allocator warm-up peak in the first run of each session); Power is
+  mean board power under load; E/Inf is energy per inference,
+  Inf/J inferences per joule, and GFLOPS/W achieved compute per watt.}
+  \label{tab:device_benchmark}
+  \Description{Model size, FLOPs, latency, throughput, memory, power,
+  and energy efficiency for ten models on three NVIDIA Jetson devices:
+  Orin Nano, Orin NX, and AGX Orin.}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{lcccccccccccc}
+    \toprule
+    & & & \multicolumn{2}{c}{\textbf{Latency (ms)}}
+    & \multicolumn{2}{c}{\textbf{Throughput}}
+    & \multicolumn{2}{c}{\textbf{Memory (MB)}}
+    & & \multicolumn{3}{c}{\textbf{Energy}} \\
+    \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){11-13}
+    Model & Size (MB) & GFLOPs & Lat. & P99 & FPS & Perf (GFLOP/s)
+          & RSS & GPU & Power (W) & E/Inf (mJ) & Inf/J & GFLOPS/W \\
+    \midrule
+    \multicolumn{13}{l}{\textit{Jetson Orin Nano}} \\
+    CNN & 21.67 & 0.154
+      & 4.44{\scriptsize\,$\pm$0.08} & 7.92{\scriptsize\,$\pm$0.65} & 225.3{\scriptsize\,$\pm$4.1} & 34.7{\scriptsize\,$\pm$0.6}
+      & 797{\scriptsize\,$\pm$12} & 38.1{\scriptsize\,$\pm$0.0} & 5.65{\scriptsize\,$\pm$0.06}
+      & 25.1{\scriptsize\,$\pm$0.5} & 39.9{\scriptsize\,$\pm$0.8} & 6.15{\scriptsize\,$\pm$0.13} \\
+    Transformer & 2.63 & 33.294
+      & 6.38{\scriptsize\,$\pm$0.45} & 10.32{\scriptsize\,$\pm$1.43} & 157.5{\scriptsize\,$\pm$10.4} & 5245.0{\scriptsize\,$\pm$346.5}
+      & 719{\scriptsize\,$\pm$6} & 13.7{\scriptsize\,$\pm$0.0} & 6.41{\scriptsize\,$\pm$0.16}
+      & 40.8{\scriptsize\,$\pm$2.0} & 24.6{\scriptsize\,$\pm$1.1} & 817.63{\scriptsize\,$\pm$37.12} \\
+    ResNet & 3.97 & 0.078
+      & 7.70{\scriptsize\,$\pm$0.08} & 9.06{\scriptsize\,$\pm$0.75} & 129.9{\scriptsize\,$\pm$1.3} & 10.1{\scriptsize\,$\pm$0.1}
+      & 797{\scriptsize\,$\pm$5} & 14.2{\scriptsize\,$\pm$0.0} & 4.50{\scriptsize\,$\pm$0.04}
+      & 34.7{\scriptsize\,$\pm$0.6} & 28.9{\scriptsize\,$\pm$0.5} & 2.24{\scriptsize\,$\pm$0.04} \\
+    Uni-S4 & 0.84 & 0.009
+      & 20.26{\scriptsize\,$\pm$0.13} & 24.22{\scriptsize\,$\pm$0.45} & 49.4{\scriptsize\,$\pm$0.3} & 0.4{\scriptsize\,$\pm$0.0}
+      & 853{\scriptsize\,$\pm$14} & 44.2{\scriptsize\,$\pm$0.0} & 13.37{\scriptsize\,$\pm$0.09}
+      & 271.0{\scriptsize\,$\pm$0.7} & 3.7{\scriptsize\,$\pm$0.0} & 0.03{\scriptsize\,$\pm$0.00} \\
+    Uni-Mamba & 1.68 & 0.463
+      & 15.16{\scriptsize\,$\pm$0.23} & 16.58{\scriptsize\,$\pm$0.80} & 66.0{\scriptsize\,$\pm$1.0} & 30.5{\scriptsize\,$\pm$0.5}
+      & 1410{\scriptsize\,$\pm$4} & 31.3{\scriptsize\,$\pm$64.3} & 4.95{\scriptsize\,$\pm$0.66}
+      & 74.9{\scriptsize\,$\pm$8.8} & 13.5{\scriptsize\,$\pm$1.1} & 6.23{\scriptsize\,$\pm$0.52} \\
+    VGG & 1.60 & 0.078
+      & 3.95{\scriptsize\,$\pm$0.05} & 5.11{\scriptsize\,$\pm$0.51} & 253.2{\scriptsize\,$\pm$3.3} & 19.7{\scriptsize\,$\pm$0.3}
+      & 742{\scriptsize\,$\pm$5} & 12.3{\scriptsize\,$\pm$0.0} & 4.20{\scriptsize\,$\pm$0.06}
+      & 16.6{\scriptsize\,$\pm$0.4} & 60.4{\scriptsize\,$\pm$1.3} & 4.69{\scriptsize\,$\pm$0.10} \\
+    Uni-S4D & 0.84 & 0.009
+      & 10.89{\scriptsize\,$\pm$0.12} & 13.01{\scriptsize\,$\pm$1.17} & 91.8{\scriptsize\,$\pm$1.0} & 0.8{\scriptsize\,$\pm$0.0}
+      & 806{\scriptsize\,$\pm$3} & 41.9{\scriptsize\,$\pm$0.0} & 8.54{\scriptsize\,$\pm$0.07}
+      & 93.1{\scriptsize\,$\pm$1.5} & 10.7{\scriptsize\,$\pm$0.2} & 0.10{\scriptsize\,$\pm$0.00} \\
+    Bi-S4D & 1.68 & 0.018
+      & 21.16{\scriptsize\,$\pm$0.20} & 22.59{\scriptsize\,$\pm$0.73} & 47.3{\scriptsize\,$\pm$0.4} & 0.8{\scriptsize\,$\pm$0.0}
+      & 836{\scriptsize\,$\pm$5} & 43.0{\scriptsize\,$\pm$0.0} & 9.80{\scriptsize\,$\pm$0.04}
+      & 207.4{\scriptsize\,$\pm$1.9} & 4.8{\scriptsize\,$\pm$0.0} & 0.09{\scriptsize\,$\pm$0.00} \\
+    Bi-S4 & 1.69 & 0.018
+      & 37.79{\scriptsize\,$\pm$0.09} & 41.48{\scriptsize\,$\pm$1.14} & 26.5{\scriptsize\,$\pm$0.1} & 0.5{\scriptsize\,$\pm$0.0}
+      & 875{\scriptsize\,$\pm$3} & 45.4{\scriptsize\,$\pm$0.0} & 15.00{\scriptsize\,$\pm$0.06}
+      & 567.0{\scriptsize\,$\pm$2.2} & 1.8{\scriptsize\,$\pm$0.0} & 0.03{\scriptsize\,$\pm$0.00} \\
+    Bi-Mamba & 3.36 & 0.925
+      & 30.31{\scriptsize\,$\pm$0.42} & 31.62{\scriptsize\,$\pm$1.14} & 33.0{\scriptsize\,$\pm$0.5} & 30.5{\scriptsize\,$\pm$0.4}
+      & 1437{\scriptsize\,$\pm$5} & 33.3{\scriptsize\,$\pm$64.3} & 4.97{\scriptsize\,$\pm$0.32}
+      & 150.4{\scriptsize\,$\pm$7.8} & 6.7{\scriptsize\,$\pm$0.3} & 6.16{\scriptsize\,$\pm$0.27} \\
+    \midrule
+    \multicolumn{13}{l}{\textit{Jetson Orin NX}} \\
+    CNN & 21.67 & 0.154
+      & 5.99{\scriptsize\,$\pm$0.19} & 7.80{\scriptsize\,$\pm$1.28} & 167.2{\scriptsize\,$\pm$5.3} & 25.8{\scriptsize\,$\pm$0.8}
+      & 761{\scriptsize\,$\pm$13} & 38.1{\scriptsize\,$\pm$0.0} & 6.98{\scriptsize\,$\pm$0.07}
+      & 41.8{\scriptsize\,$\pm$1.1} & 23.9{\scriptsize\,$\pm$0.6} & 3.69{\scriptsize\,$\pm$0.10} \\
+    Transformer & 2.63 & 33.294
+      & 10.02{\scriptsize\,$\pm$0.18} & 13.17{\scriptsize\,$\pm$1.29} & 99.9{\scriptsize\,$\pm$1.8} & 3325.3{\scriptsize\,$\pm$60.9}
+      & 683{\scriptsize\,$\pm$9} & 13.7{\scriptsize\,$\pm$0.0} & 7.09{\scriptsize\,$\pm$0.05}
+      & 71.0{\scriptsize\,$\pm$1.0} & 14.1{\scriptsize\,$\pm$0.2} & 468.74{\scriptsize\,$\pm$6.63} \\
+    ResNet & 3.97 & 0.078
+      & 7.95{\scriptsize\,$\pm$0.07} & 9.75{\scriptsize\,$\pm$1.02} & 125.8{\scriptsize\,$\pm$1.1} & 9.8{\scriptsize\,$\pm$0.1}
+      & 764{\scriptsize\,$\pm$9} & 14.2{\scriptsize\,$\pm$0.0} & 6.17{\scriptsize\,$\pm$0.05}
+      & 49.1{\scriptsize\,$\pm$0.6} & 20.4{\scriptsize\,$\pm$0.2} & 1.58{\scriptsize\,$\pm$0.02} \\
+    Uni-S4 & 0.84 & 0.009
+      & 48.76{\scriptsize\,$\pm$0.64} & 53.80{\scriptsize\,$\pm$2.14} & 20.5{\scriptsize\,$\pm$0.3} & 0.2{\scriptsize\,$\pm$0.0}
+      & 826{\scriptsize\,$\pm$12} & 44.2{\scriptsize\,$\pm$0.0} & 9.72{\scriptsize\,$\pm$0.38}
+      & 473.7{\scriptsize\,$\pm$12.4} & 2.1{\scriptsize\,$\pm$0.1} & 0.02{\scriptsize\,$\pm$0.00} \\
+    Uni-Mamba & 1.68 & 0.463
+      & 18.21{\scriptsize\,$\pm$0.08} & 19.36{\scriptsize\,$\pm$0.89} & 54.9{\scriptsize\,$\pm$0.2} & 25.4{\scriptsize\,$\pm$0.1}
+      & 1135{\scriptsize\,$\pm$12} & 31.3{\scriptsize\,$\pm$64.4} & 6.32{\scriptsize\,$\pm$0.32}
+      & 115.1{\scriptsize\,$\pm$5.7} & 8.7{\scriptsize\,$\pm$0.4} & 4.03{\scriptsize\,$\pm$0.18} \\
+    VGG & 1.60 & 0.078
+      & 4.19{\scriptsize\,$\pm$0.03} & 4.99{\scriptsize\,$\pm$0.50} & 238.8{\scriptsize\,$\pm$1.7} & 18.5{\scriptsize\,$\pm$0.1}
+      & 702{\scriptsize\,$\pm$7} & 12.3{\scriptsize\,$\pm$0.0} & 5.80{\scriptsize\,$\pm$0.06}
+      & 24.3{\scriptsize\,$\pm$0.3} & 41.2{\scriptsize\,$\pm$0.5} & 3.20{\scriptsize\,$\pm$0.04} \\
+    Uni-S4D & 0.84 & 0.009
+      & 11.87{\scriptsize\,$\pm$0.12} & 15.06{\scriptsize\,$\pm$1.77} & 84.2{\scriptsize\,$\pm$0.9} & 0.8{\scriptsize\,$\pm$0.0}
+      & 799{\scriptsize\,$\pm$15} & 41.9{\scriptsize\,$\pm$0.0} & 9.53{\scriptsize\,$\pm$0.23}
+      & 113.1{\scriptsize\,$\pm$3.4} & 8.8{\scriptsize\,$\pm$0.3} & 0.08{\scriptsize\,$\pm$0.00} \\
+    Bi-S4D & 1.68 & 0.018
+      & 22.54{\scriptsize\,$\pm$0.13} & 24.59{\scriptsize\,$\pm$2.11} & 44.4{\scriptsize\,$\pm$0.3} & 0.8{\scriptsize\,$\pm$0.0}
+      & 830{\scriptsize\,$\pm$15} & 43.0{\scriptsize\,$\pm$0.0} & 10.87{\scriptsize\,$\pm$0.18}
+      & 245.0{\scriptsize\,$\pm$5.0} & 4.1{\scriptsize\,$\pm$0.1} & 0.07{\scriptsize\,$\pm$0.00} \\
+    Bi-S4 & 1.69 & 0.018
+      & 93.80{\scriptsize\,$\pm$3.01} & 106.42{\scriptsize\,$\pm$47.32} & 10.7{\scriptsize\,$\pm$0.3} & 0.2{\scriptsize\,$\pm$0.0}
+      & 882{\scriptsize\,$\pm$35} & 45.4{\scriptsize\,$\pm$0.0} & 10.15{\scriptsize\,$\pm$0.34}
+      & 952.0{\scriptsize\,$\pm$42.3} & 1.1{\scriptsize\,$\pm$0.0} & 0.02{\scriptsize\,$\pm$0.00} \\
+    Bi-Mamba & 3.36 & 0.925
+      & 36.52{\scriptsize\,$\pm$0.40} & 38.20{\scriptsize\,$\pm$1.35} & 27.4{\scriptsize\,$\pm$0.3} & 25.3{\scriptsize\,$\pm$0.3}
+      & 1211{\scriptsize\,$\pm$76} & 33.3{\scriptsize\,$\pm$64.3} & 6.56{\scriptsize\,$\pm$0.16}
+      & 239.6{\scriptsize\,$\pm$7.3} & 4.2{\scriptsize\,$\pm$0.1} & 3.87{\scriptsize\,$\pm$0.12} \\
+    \midrule
+    \multicolumn{13}{l}{\textit{Jetson AGX Orin}} \\
+    CNN & 21.67 & 0.154
+      & 4.20{\scriptsize\,$\pm$0.14} & 6.57{\scriptsize\,$\pm$0.81} & 238.5{\scriptsize\,$\pm$7.6} & 36.8{\scriptsize\,$\pm$1.2}
+      & 820{\scriptsize\,$\pm$12} & 38.1{\scriptsize\,$\pm$0.0} & 4.98{\scriptsize\,$\pm$0.05}
+      & 20.9{\scriptsize\,$\pm$0.8} & 47.9{\scriptsize\,$\pm$1.7} & 7.38{\scriptsize\,$\pm$0.26} \\
+    Transformer & 2.63 & 33.294
+      & 7.18{\scriptsize\,$\pm$0.81} & 10.00{\scriptsize\,$\pm$1.05} & 140.9{\scriptsize\,$\pm$15.2} & 4689.7{\scriptsize\,$\pm$505.7}
+      & 741{\scriptsize\,$\pm$3} & 13.7{\scriptsize\,$\pm$0.0} & 4.51{\scriptsize\,$\pm$0.04}
+      & 32.4{\scriptsize\,$\pm$3.5} & 31.2{\scriptsize\,$\pm$3.3} & 1038.57{\scriptsize\,$\pm$109.93} \\
+    ResNet & 3.97 & 0.078
+      & 6.45{\scriptsize\,$\pm$0.07} & 8.47{\scriptsize\,$\pm$0.86} & 154.9{\scriptsize\,$\pm$1.6} & 12.0{\scriptsize\,$\pm$0.1}
+      & 823{\scriptsize\,$\pm$4} & 14.2{\scriptsize\,$\pm$0.0} & 4.33{\scriptsize\,$\pm$0.03}
+      & 28.0{\scriptsize\,$\pm$0.4} & 35.8{\scriptsize\,$\pm$0.5} & 2.78{\scriptsize\,$\pm$0.04} \\
+    Uni-S4 & 0.84 & 0.009
+      & 26.05{\scriptsize\,$\pm$0.08} & 30.33{\scriptsize\,$\pm$1.62} & 38.4{\scriptsize\,$\pm$0.1} & 0.3{\scriptsize\,$\pm$0.0}
+      & 890{\scriptsize\,$\pm$2} & 45.0{\scriptsize\,$\pm$0.0} & 7.37{\scriptsize\,$\pm$0.01}
+      & 191.9{\scriptsize\,$\pm$0.6} & 5.2{\scriptsize\,$\pm$0.0} & 0.05{\scriptsize\,$\pm$0.00} \\
+    Uni-Mamba & 1.68 & 0.463
+      & 14.10{\scriptsize\,$\pm$0.29} & 17.21{\scriptsize\,$\pm$2.05} & 71.0{\scriptsize\,$\pm$1.4} & 32.8{\scriptsize\,$\pm$0.7}
+      & 1288{\scriptsize\,$\pm$1} & 31.3{\scriptsize\,$\pm$64.3} & 4.51{\scriptsize\,$\pm$0.23}
+      & 63.6{\scriptsize\,$\pm$3.7} & 15.8{\scriptsize\,$\pm$0.8} & 7.29{\scriptsize\,$\pm$0.39} \\
+    VGG & 1.60 & 0.078
+      & 3.30{\scriptsize\,$\pm$0.04} & 4.53{\scriptsize\,$\pm$0.49} & 302.8{\scriptsize\,$\pm$4.1} & 23.5{\scriptsize\,$\pm$0.3}
+      & 768{\scriptsize\,$\pm$3} & 12.3{\scriptsize\,$\pm$0.0} & 4.27{\scriptsize\,$\pm$0.03}
+      & 14.1{\scriptsize\,$\pm$0.2} & 70.9{\scriptsize\,$\pm$1.1} & 5.50{\scriptsize\,$\pm$0.09} \\
+    Uni-S4D & 0.84 & 0.009
+      & 9.52{\scriptsize\,$\pm$0.10} & 13.31{\scriptsize\,$\pm$0.97} & 105.1{\scriptsize\,$\pm$1.1} & 0.9{\scriptsize\,$\pm$0.0}
+      & 850{\scriptsize\,$\pm$2} & 42.6{\scriptsize\,$\pm$0.0} & 6.26{\scriptsize\,$\pm$0.06}
+      & 59.5{\scriptsize\,$\pm$0.8} & 16.8{\scriptsize\,$\pm$0.2} & 0.15{\scriptsize\,$\pm$0.00} \\
+    Bi-S4D & 1.68 & 0.018
+      & 18.37{\scriptsize\,$\pm$0.39} & 20.12{\scriptsize\,$\pm$1.25} & 54.5{\scriptsize\,$\pm$1.0} & 1.0{\scriptsize\,$\pm$0.0}
+      & 885{\scriptsize\,$\pm$7} & 43.8{\scriptsize\,$\pm$0.0} & 6.70{\scriptsize\,$\pm$0.01}
+      & 123.1{\scriptsize\,$\pm$2.5} & 8.1{\scriptsize\,$\pm$0.1} & 0.15{\scriptsize\,$\pm$0.00} \\
+    Bi-S4 & 1.69 & 0.018
+      & 50.54{\scriptsize\,$\pm$0.16} & 55.32{\scriptsize\,$\pm$1.69} & 19.8{\scriptsize\,$\pm$0.1} & 0.4{\scriptsize\,$\pm$0.0}
+      & 937{\scriptsize\,$\pm$23} & 46.1{\scriptsize\,$\pm$0.0} & 7.60{\scriptsize\,$\pm$0.02}
+      & 384.1{\scriptsize\,$\pm$0.8} & 2.6{\scriptsize\,$\pm$0.0} & 0.05{\scriptsize\,$\pm$0.00} \\
+    Bi-Mamba & 3.36 & 0.925
+      & 28.22{\scriptsize\,$\pm$0.69} & 29.92{\scriptsize\,$\pm$1.56} & 35.5{\scriptsize\,$\pm$0.8} & 32.8{\scriptsize\,$\pm$0.8}
+      & 1318{\scriptsize\,$\pm$3} & 33.3{\scriptsize\,$\pm$64.3} & 4.75{\scriptsize\,$\pm$0.27}
+      & 134.0{\scriptsize\,$\pm$10.5} & 7.5{\scriptsize\,$\pm$0.6} & 6.94{\scriptsize\,$\pm$0.52} \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table*}
+
 \end{document}
