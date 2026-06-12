@@ -23,9 +23,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
-# Reduce Jetson memory fragmentation
+# expandable_segments breaks Jetson CUDA virtual-memory API; keep only GC threshold
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF",
-                      "expandable_segments:True,garbage_collection_threshold:0.6")
+                      "garbage_collection_threshold:0.6")
 
 from models import MODELS
 
